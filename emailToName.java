@@ -13,28 +13,14 @@ public class emailToName {
 		BufferedReader in = new BufferedReader(new InputStreamReader(namePage.openStream()));
 		String inputLine;
 		String name = "Not Found";
-		String title;
-		int base = 0;
-		int pos;
-		
+		int titlePos;
 		while((inputLine = in.readLine()) != null) {
-			base = 0;
-			while(inputLine.charAt(base)!='<' && base<inputLine.length()){
-				base+=1;
-			}
-			if(base==inputLine.length()){
-				base=0;
-			}
-			title = inputLine.substring(base,base+7);
-			if(title.equals("<title>")==true){ // == operator didn't work so i used equals method to compare the strings
-				pos = base + 7; //pos = position of first character after <title> in inputLine string
-				name = "";
-				while(inputLine.charAt(pos)!='|' && pos<inputLine.length()){
-					name+=inputLine.charAt(pos);
-					pos+=1;
-				}
+			titlePos = inputLine.indexOf("<title>");
+			if(titlePos!=(0-1)){
+				name = inputLine.substring(titlePos+7,inputLine.indexOf('|',titlePos) );
 				break;
 			}
+			
 		}
 		in.close();
 		System.out.println("Name: " + name);
@@ -42,6 +28,7 @@ public class emailToName {
 	
 	
 }
+
 
 	
 		
